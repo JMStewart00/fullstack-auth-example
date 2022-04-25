@@ -5,10 +5,9 @@ tasks:
     init: |
       gp await-port 7000
       python -m pip install --upgrade pip
-      pip install -r requirements.txt
-      python manage.py migrate
   - command: |
       docker compose up -d
+      pip install -r requirements.txt
 
 vscode:
   extensions:
