@@ -1,11 +1,12 @@
+from rest_framework import viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action
-from .models import CustomUser
+from .models import CustomUser, Parent, Child, Tag
 
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, ChildSerializer, ParentSerializer, TagSerializer
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -24,3 +25,18 @@ class UserDetail(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+class ChildViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Child.objects.all()
+    serializer_class = ChildSerializer
+
+class TagViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+class ParentViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Parent.objects.all()
+    serializer_class = ParentSerializer
