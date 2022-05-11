@@ -73,7 +73,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 ```
 
-
 ### Deploying to Heroku steps
 - `curl https://cli-assets.heroku.com/install.sh | sh`
 - `heroku login --interactive`
@@ -93,8 +92,9 @@ import environ
 import os
 
 env = environ.Env()
-# Set the project base directory
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -102,8 +102,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
   "default": env.db("DATABASE_URL", default='postgres://postgres:postgres@127.0.0.1:5432/postgres')
