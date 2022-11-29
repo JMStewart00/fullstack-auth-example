@@ -16,17 +16,13 @@ Processes that should run:
 The CSRF_TRUSTED_ORIGINS setting in settings.py should be set to allow `https://*.gitpod.io` for a trusted CSRF token.
 
 ## Users App for Authentication
-The `users` app is an extension of the User model created by Django and provides the basic functionality to authenticate users. 
+The `users` app is this project's implementation of an extension of the User model created by Django and provides the basic functionality to authenticate users. Replace references to app names with `yourappname`.
 
 The following would need to be added to your Django project in `myproject/settings.py` to get this to work.
 
 Be sure to `pip install django djangorestframework djangorestframework-simplejwt django-cors-headers`
 
-Part 1 of [this hackernoon](https://hackernoon.com/110percent-complete-jwt-authentication-with-django-and-react-2020-iejq34ta) article was the basis for this.
-
 ```python
-CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
-CORS_ALLOW_ALL_ORIGINS = True # insecure but necessary for now.
 INSTALLED_APPS = [
     ... 
 
@@ -66,47 +62,22 @@ SIMPLE_JWT = {
 # Custom user model
 AUTH_USER_MODEL = "users.CustomUser"
 
-
-CORS_ALLOWED_ORIGINS = [    
-    'http://localhost:8000',
-    'https://*.gitpod.io'
+CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.gitpod\.io$",
 ]
 ```
 
-### Deploying to Heroku steps
-- `curl https://cli-assets.heroku.com/install.sh | sh`
-- `heroku login --interactive`
-- `heroku create`
-- `pip install django-heroku django-environ`
-- `echo 'SECRET_KEY=your-secret-key' > .env`
-- Update settings file
-- `heroku config:set SECRET_KEY=your-secret-key`
-- `pip freeze > requirements.txt`
-- `echo python-3.8.12 > runtime.txt`
-- `echo "web: python manage.py runserver 0.0.0.0:\$PORT" > Procfile`
-- `git push heroku main`
-
+You will need to add urls to your app that utilize jwt for authentication.
 
 ```python
-import environ
-import os
+# yourproject/yourappname/urls.py
+from django.urls import path
+from rest_framework_simplejwt import views as jwt_views
 
-env = environ.Env()
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-# Raises Django's ImproperlyConfigured
-# exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
-
-
-DATABASES = {
-  "default": env.db("DATABASE_URL", default='postgres://postgres:postgres@127.0.0.1:5432/postgres')
-}
+urlpatterns = [
+    ...,
+    path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+]
 ```
-
-- `heroku run python manage.py migrate`
-https://realpython.com/django-hosting-on-heroku/#populate-the-database
