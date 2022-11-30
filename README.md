@@ -57,6 +57,7 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 ]
 ```
 
+# Step 3: Add urls for authentication endpoints.
 You will need to add urls to your app that utilize jwt for authentication.
 
 ```python
@@ -70,3 +71,6 @@ urlpatterns = [
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
 ```
+
+# Step 4: Apply newly installed apps migrations for authtoken
+`python manage.py migrate`
