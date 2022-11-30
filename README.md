@@ -1,13 +1,12 @@
-## Changing the Django PROJECT name
-1. The current project name is `api`. If you would like to change that name you will need to change the directory name as well as all the references to that project throughout the files in the project. That might be worth the time.
-
 ## Users App for Authentication
 The `users` app is THIS project's implementation of an extension of the User model created by Django and provides the basic functionality to authenticate users. Replace references to app names with `yourappname`.
 
 The following would need to be added to your Django project in `myproject/settings.py` to get this to work.
 
-Be sure to `pip install django djangorestframework djangorestframework-simplejwt django-cors-headers`
+## Step 1: Install Dependencies
+`pip install django djangorestframework djangorestframework-simplejwt django-cors-headers`
 
+## Step 2: Add to settings.py
 ```python
 INSTALLED_APPS = [
     ... 
@@ -19,9 +18,12 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Local Apps
-    'users', # your app name
+    'users', # your app name, probably not users
 ]
 
+# It is important to understand that this will make all of your routes need auth creds.
+# You can use AllowAny, IsAuthenticatedOrReadOnly if you want as well.
+# Permissions can be overwritten on a view-by-view basis this is just the default
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -45,8 +47,8 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-# Custom user model
-AUTH_USER_MODEL = "users.CustomUser"
+# Custom user model for your application
+AUTH_USER_MODEL = "myappname.CustomUser"
 
 CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 CORS_ALLOWED_ORIGIN_REGEXES = [
