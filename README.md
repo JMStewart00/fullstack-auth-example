@@ -8,6 +8,8 @@ The following would need to be added to your Django project in `myproject/settin
 
 ## Step 2: Add to settings.py
 ```python
+from datetime import timedelta
+
 INSTALLED_APPS = [
     ... 
 
