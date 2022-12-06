@@ -3,8 +3,9 @@ The `users` app is THIS project's implementation of an extension of the User mod
 
 The following would need to be added to your Django project in `myproject/settings.py` to get this to work.
 
-## Step 1: Install Dependencies
-`pip install django djangorestframework djangorestframework-simplejwt django-cors-headers`
+## Step 1: Install Necessary Dependencies - you may already have some installed
+`$ pip install django djangorestframework djangorestframework-simplejwt django-cors-headers`
+`$ pip freeze > path/to/requirements.txt`
 
 ## Step 2: Add to settings.py
 ```python
