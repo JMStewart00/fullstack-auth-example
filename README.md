@@ -12,6 +12,8 @@ The following would need to be added to your Django project in `myproject/settin
 
 # Step 2: Use the gist below to create, add, and update all necessary files in the Django project.
 
+https://gist.github.com/JMStewart00/7f890693c48b15417457429d50a689f0
+
 # Step 3: Add urls for authentication endpoints.
 You will need to add urls to your app that utilize jwt for authentication.
 
