@@ -37,3 +37,5 @@ urlpatterns = [
 
 # Step 7: Apply newly installed apps migrations for authtoken
 `python manage.py migrate`
+
+# Step 8: Copy/paste in the UserSerializer from the serializers.py and the UserCreate and UserDetail views into your views.py
